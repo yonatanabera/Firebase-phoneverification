@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+            
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+
+
+       
+   
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="message"></div>
+    <div class="container">
+        
+       
+        <br>
+        <input class="form-control" type="email" name="email" placeholder="Email" id="txtEmail"><br>
+        <input class="form-control" type="password" name="password" placeholder="Password" id="txtPassword"><br>
+        <button id="btnLogin" class="btn btn-success" >Login</button>
+        <button id="btnSignUp" class="btn btn-secondary">Sign Up</button>
+        <button id="btnLogout" type="button" hidden="hidden" class="btn btn-primary hide">Logout</button>
+
+    </div>
+    
+            <!-- The core Firebase JS SDK is always required and must be listed first -->
+            <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+            <!-- TODO: Add SDKs for Firebase products that you want to use
+                https://firebase.google.com/docs/web/setup#available-libraries -->
+                <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-analytics.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-auth.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyC6Q0JVXqNn9YVccADKlf7_B-RNtgtVOiE",
+            authDomain: "yonifire-bb21a.firebaseapp.com",
+            databaseURL: "https://yonifire-bb21a.firebaseio.com",
+            projectId: "yonifire-bb21a",
+            storageBucket: "yonifire-bb21a.appspot.com",
+            messagingSenderId: "427791827404",
+            appId: "1:427791827404:web:3deb5d67844f9b59215d69",
+            measurementId: "G-ZMTK1357B7"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+        const txtEmail=document.getElementById('txtEmail');
+        const txtPassword=document.getElementById('txtPassword');
+        const btnLogin=document.getElementById('btnLogin');
+        const btnSignUp=document.getElementById('btnSignUp');
+        const btnLogout=document.getElementById('btnLogout');
+        const message=document.getElementById('message');
+
+        // Add login event
+        btnLogin.addEventListener('click', e=>{
+                // Get email and pass
+                const email=txtEmail.value;
+                const pass=txtPassword.value;
+                const auth=firebase.auth();
+
+                // Sign in
+               const promise= auth.signInWithEmailAndPassword(email, pass);
+               promise.catch(e=> console.log(e.message));
+        });
+
+        // Add signup event
+        btnSignUp.addEventListener('click', e=>{
+             // Get email and pass
+             const email=txtEmail.value;
+                const pass=txtPassword.value;
+                const auth=firebase.auth();
+
+                // Sign in
+               const promise= auth.createUserWithEmailAndPassword(email, pass);
+               promise.catch(e=> console.log(e.message));
+        });
+
+        btnLogout.addEventListener('click', e=>{
+            firebase.auth().signOut();
+
+        });
+        // add real time listener
+        firebase.auth().onAuthStateChanged(firebaseUser=>{
+            if(firebaseUser){
+                console.log(firebaseUser);
+                btnLogout.removeAttribute('hidden');
+                // btnLogout.classList.remove('hide');
+            }else{
+                console.log('not logged in user');
+                btnLogout.setAttribute('hidden', 'hide');
+                // btnLogout.classList.add('hide');
+            }
+        });
+        </script>
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
